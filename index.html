@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daily Score Checklist</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    table { border-collapse: collapse; width: 100%; margin-bottom: 20px; }
+    th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+    th { background-color: #f2f2f2; }
+    .score { font-weight: bold; }
+    .rules { background-color: #e6f3ff; padding: 15px; border-radius: 5px; margin-bottom: 20px; }
+    #dailyScore { font-size: 1.5em; font-weight: bold; margin-top: 20px; }
+    .disabled { opacity: 0.5; pointer-events: none; }
+  </style>
+</head>
+<body>
+  <h1>Daily Score Checklist</h1>
+
+  <!-- Rules Section -->
+  <div class="rules">
+    <h2>How It Works</h2>
+    <p>Use this checklist to track your tasks for the day and see your total Daily Score below.</p>
+    <ul>
+      <li><strong>Step 1</strong>: For each task, check the appropriate box: Pass (✅), Fail (❌), or Reverted (🔁) (only for cleaning tasks).</li>
+      <li><strong>Step 2</strong>: For family complaints, check up to 5 boxes (Complaint 1 to Complaint 5) to log each instance.</li>
+      <li><strong>Step 3</strong>: For "Appointment for myself (self-care)", check Pass (✅) for "yes" (+2) or Fail (❌) for "no" (-2). Reverted is disabled for this task.</li>
+      <li><strong>Step 4</strong>: The score for each task updates automatically, and the total Daily Score is calculated based on all tasks and penalties.</li>
+      <li><strong>Step 5</strong>: The total Daily Score is shown below the checklist.</li>
+      <li><strong>Step 6</strong>: Use the "Reset Checklist" button to clear all entries and start over for a new day.</li>
+    </ul>
+    <h3>Scoring Rules</h3>
+    <ul>
+      <li><strong>Must-Do Tasks (non-cleaning)</strong>:
+        <ul>
+          <li>Pass (✅): +2 points (task completed successfully).</li>
+          <li>Fail (❌): -2 points (task not completed).</li>
+        </ul>
+      </li>
+      <li><strong>Must-Do Tasks (cleaning)</strong>:
+        <ul>
+          <li>Pass (✅): +2 points (task completed successfully).</li>
+          <li>Fail (❌): -2 points (task not completed).</li>
+          <li>Reverted (🔁): -1 point (task was done but returned to a mess).</li>
+        </ul>
+      </li>
+      <li><strong>Extras Tasks (non-cleaning)</strong>:
+        <ul>
+          <li>Pass (✅): +2 points (task completed successfully).</li>
+          <li>Fail (❌): -2 points (task not completed).</li>
+        </ul>
+      </li>
+      <li><strong>Extras Tasks (cleaning)</strong>:
+        <ul>
+          <li>Pass (✅): +2 points (task completed successfully).</li>
+          <li>Fail (❌): -2 points (task not completed).</li>
+          <li>Reverted (🔁): -1 point (task was done but returned to a mess).</li>
+        </ul>
+      </li>
+      <li><strong>Appointment for myself (self-care)</strong>:
+        <ul>
+          <li>Pass (✅): +2 points ("yes", self-care completed).</li>
+          <li>Fail (❌): -2 points ("no", self-care not done).</li>
+        </ul>
+      </li>
+      <li><strong>Penalties</strong>:
+        <ul>
+          <li>Family complaint: -2 points per instance (up to 5 instances, max -10 points).</li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+
+  <button onclick="resetChecklist()">Reset Checklist</button>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Category</th>
+        <th>Task</th>
+        <th>Pass (✅)</th>
+        <th>Fail (❌)</th>
+        <th>Reverted (🔁)</th>
+        <th>Score</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td rowspan="10">Must-Do</td>
+        <td><strong>Feed children</strong> (all)</td>
+        <td><input type="checkbox" class="pass" data-score="2" data-task="feed" onchange="updateScore('feed')"></td>
+        <td><input type="checkbox" class="fail" data-score="-2" data-task="feed" onchange="updateScore('feed')"></td>
+        <td></td>
+        <td class="score" id="feed-score">0</td>
+      </tr>
+      <tr>
+        <td>Get kids to school</td>
+        <td><input type="checkbox" class="pass" data-score="2" data-task="school" onchange="updateScore('school')"></td>
+        <td><input type="checkbox" class="fail" data-score="-2" data-task="school" onchange="updateScore('school')"></td>
+        <td></td>
+        <td class="score" id="school-score">0</td>
+      </tr>
+      <tr>
+        <td>Shower children</td>
+        <td><input type="checkbox" class="pass" data-score="2" data-task="shower-kids" onchange="updateScore('shower-kids')"></td>
+        <td><input type="checkbox" class="fail" data-score="-2" data-task="shower-kids" onchange="updateScore('shower-kids')"></td>
+        <td></td>
+        <td class="score" id="shower-kids-score">0</td>
+      </tr>
+      <tr>
+        <td>Shower self</td>
+        <td><input type="checkbox" class="pass" data-score="2" data-task="shower-self" onchange="updateScore('shower-self')"></td>
+        <td><input type="checkbox" class="fail" data-score="-2" data-task="shower-self" onchange="updateScore('shower-self')"></td>
+        <td></td>
+        <td class="score" id="shower-self-score">0</td>
+      </tr>
+      <tr>
+        <td>Clean kitchen (breakfast)</td>
+        <td><input type="checkbox" class="pass" data-score="2" data-task="clean-kitchen-breakfast" onchange="updateScore('clean-kitchen-breakfast')"></td>
+        <td><input type="checkbox" class="fail" data-score="-2" data-task="clean-kitchen-breakfast" onchange="updateScore('clean-kitchen-breakfast')"></td>
+        <td><input type="checkbox" class="reverted" data-score="-1" data-task="clean-kitchen-breakfast" onchange="updateScore('clean-kitchen-breakfast')"></td>
+        <td class="score" id="clean-kitchen-breakfast-score">0</td>
+      </tr>
+      <tr>
+        <td>Eat (full meal)</td>
+        <td><input type="checkbox" class="pass" data-score="2" data-task="eat-self" onchange="updateScore('eat-self')"></td>
+        <td><input type="checkbox" class="fail" data-score="-2" data-task="eat-self" onchange="updateScore('eat-self')"></td>
+        <td></td>
+        <td class="score" id="eat-self-score">0</td>
+      </tr>
+      <tr>
+        <td>Clean kitchen (dinner)</td>
+        <td><input type="checkbox" class="pass" data-score="2" data-task="clean-kitchen-dinner" onchange="updateScore('clean-kitchen-dinner')"></td>
+        <td><input type="checkbox" class="fail" data-score="-2" data-task="clean-kitchen-dinner" onchange="updateScore('clean-kitchen-dinner')"></td>
+        <td><input type="checkbox" class="reverted" data-score="-1" data-task="clean-kitchen-dinner" onchange="updateScore('clean-kitchen-dinner')"></td>
+        <td class="score" id="clean-kitchen-dinner-score">0</td>
+      </tr>
+      <tr>
+        <td>Trash out (if full)</td>
+        <td><input type="checkbox" class="pass" data-score="2" data-task="trash-out" onchange="updateScore('trash-out')"></td>
+        <td><input type="checkbox" class="fail" data-score="-2" data-task="trash-out" onchange="updateScore('trash-out')"></td>
+        <td></td>
+        <td class="score" id="trash-out-score">0</td>
+      </tr>
+      <tr>
+        <td>Clean kitchen (afternoon)</td>
+        <td><input type="checkbox" class="pass" data-score="2" data-task="clean-kitchen-afternoon" onchange="updateScore('clean-kitchen-afternoon')"></td>
+        <td><input type="checkbox" class="fail" data-score="-2" data-task="clean-kitchen-afternoon" onchange="updateScore('clean-kitchen-afternoon')"></td>
+        <td><input type="checkbox" class="reverted" data-score="-1" data-task="clean-kitchen-afternoon" onchange="updateScore('clean-kitchen-afternoon')"></td>
+        <td class="score" id="clean-kitchen-afternoon-score">0</td>
+      </tr>
+      <tr>
+        <td>Clean kitchen (night)</td>
+        <td><input type="checkbox" class="pass" data-score="2" data-task="clean-kitchen-night" onchange="updateScore('clean-kitchen-night')"></td>
+        <td><input type="checkbox" class="fail" data-score="-2" data-task="clean-kitchen-night" onchange="updateScore('clean-kitchen-night')"></td>
+        <td><input type="checkbox" class="reverted" data-score="-1" data-task="clean-kitchen-night" onchange="updateScore('clean-kitchen-night')"></td>
+        <td class="score" id="clean-kitchen-night-score">0</td>
+      </tr>
+      <tr>
+        <td rowspan="8">Extras</td>
+        <td>Vacuuming</td>
+        <td><input type="checkbox" class="pass" data-score="2" data-task="vacuuming" onchange="updateScore('vacuuming')"></td>
+        <td><input type="checkbox" class="fail" data-score="-2" data-task="vacuuming" onchange="updateScore('vacuuming')"></td>
+        <td><input type="checkbox" class="reverted" data-score="-1" data-task="vacuuming" onchange="updateScore('vacuuming')"></td>
+        <td class="score" id="vacuuming-score">0</td>
+      </tr>
+      <tr>
+        <td>Tidy up (quick)</td>
+        <td><input type="checkbox" class="pass" data-score="2" data-task="tidy-up" onchange="updateScore('tidy-up')"></td>
+        <td><input type="checkbox" class="fail" data-score="-2" data-task="tidy-up" onchange="updateScore('tidy-up')"></td>
+        <td></td>
+        <td class="score" id="tidy-up-score">0</td>
+      </tr>
+      <tr>
+        <td>Organize (deep clean)</td>
+        <td><input type="checkbox" class="pass" data-score="2" data-task="organize" onchange="updateScore('organize')"></td>
+        <td><input type="checkbox" class="fail" data-score="-2" data-task="organize" onchange="updateScore('organize')"></td>
+        <td><input type="checkbox" class="reverted" data-score="-1" data-task="organize" onchange="updateScore('organize')"></td>
+        <td class="score" id="organize-score">0</td>
+      </tr>
+      <tr>
+        <td>Appointments for kids</td>
+        <td><input type="checkbox" class="pass" data-score="2" data-task="appointments-kids" onchange="updateScore('appointments-kids')"></td>
+        <td><input type="checkbox" class="fail" data-score="-2" data-task="appointments-kids" onchange="updateScore('appointments-kids')"></td>
+        <td></td>
+        <td class="score" id="appointments-kids-score">0</td>
+      </tr>
+      <tr>
+        <td>Appointment for myself (self-care)</td>
+        <td><input type="checkbox" class="pass" data-score="2" data-task="appointment-self" onchange="updateScore('appointment-self')"></td>
+        <td><input type="checkbox" class="fail" data-score="-2" data-task="appointment-self" onchange="updateScore('appointment-self')"></td>
+        <td><input type="checkbox" class="reverted" data-score="-1" data-task="appointment-self" onchange="updateScore('appointment-self')" disabled class="disabled"></td>
+        <td class="score" id="appointment-self-score">0</td>
+      </tr>
+      <tr>
+        <td>Laundry (wash)</td>
+        <td><input type="checkbox" class="pass" data-score="2" data-task="laundry-wash" onchange="updateScore('laundry-wash')"></td>
+        <td><input type="checkbox" class="fail" data-score="-2" data-task="laundry-wash" onchange="updateScore('laundry-wash')"></td>
+        <td></td>
+        <td class="score" id="laundry-wash-score">0</td>
+      </tr>
+      <tr>
+        <td>Laundry (dry)</td>
+        <td><input type="checkbox" class="pass" data-score="2" data-task="laundry-dry" onchange="updateScore('laundry-dry')"></td>
+        <td><input type="checkbox" class="fail" data-score="-2" data-task="laundry-dry" onchange="updateScore('laundry-dry')"></td>
+        <td></td>
+        <td class="score" id="laundry-dry-score">0</td>
+      </tr>
+      <tr>
+        <td>Laundry (put away)</td>
+        <td><input type="checkbox" class="pass" data-score="2" data-task="laundry-put-away" onchange="updateScore('laundry-put-away')"></td>
+        <td><input type="checkbox" class="fail" data-score="-2" data-task="laundry-put-away" onchange="updateScore('laundry-put-away')"></td>
+        <td></td>
+        <td class="score" id="laundry-put-away-score">0</td>
+      </tr>
+      <tr>
+        <td>Penalties</td>
+        <td>Family complaints (up to 5)</td>
+        <td></td>
+        <td>
+          <input type="checkbox" class="fail" data-score="-2" data-task="family-complaint-1" onchange="updateScore('family-complaint-1')"> Complaint 1<br>
+          <input type="checkbox" class="fail" data-score="-2" data-task="family-complaint-2" onchange="updateScore('family-complaint-2')"> Complaint 2<br>
+          <input type="checkbox" class="fail" data-score="-2" data-task="family-complaint-3" onchange="updateScore('family-complaint-3')"> Complaint 3<br>
+          <input type="checkbox" class="fail" data-score="-2" data-task="family-complaint-4" onchange="updateScore('family-complaint-4')"> Complaint 4<br>
+          <input type="checkbox" class="fail" data-score="-2" data-task="family-complaint-5" onchange="updateScore('family-complaint-5')"> Complaint 5
+        </td>
+        <td></td>
+        <td class="score" id="family-complaints-score">0</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div id="dailyScore">Total Daily Score: 0</div>
+
+  <script>
+    // Store the daily score
+    let dailyScore = 0;
+
+    // Track individual task scores
+    let taskScores = {};
+
+    function updateScore(task) {
+      let score = 0;
+      const passCheck = document.querySelector(`.pass[data-task="${task}"]:checked`);
+      const failCheck = document.querySelector(`.fail[data-task="${task}"]:checked`);
+      const revertedCheck = document.querySelector(`.reverted[data-task="${task}"]:checked`);
+
+      // Calculate the task's score
+      if (passCheck) score += parseFloat(passCheck.dataset.score);
+      if (failCheck) score += parseFloat(failCheck.dataset.score);
+      if (revertedCheck) score += parseFloat(revertedCheck.dataset.score);
+
+      // Update the daily score by removing the previous score for this task and adding the new one
+      const previousScore = taskScores[task] || 0;
+      dailyScore = dailyScore - previousScore + score;
+
+      // Update the task's score
+      taskScores[task] = score;
+
+      // Update the family complaints total score
+      let familyComplaintsScore = 0;
+      for (let i = 1; i <= 5; i++) {
+        const complaintCheck = document.querySelector(`.fail[data-task="family-complaint-${i}"]:checked`);
+        if (complaintCheck) familyComplaintsScore += parseFloat(complaintCheck.dataset.score);
+        taskScores[`family-complaint-${i}`] = complaintCheck ? parseFloat(complaintCheck.dataset.score) : 0;
+      }
+      document.getElementById('family-complaints-score').textContent = familyComplaintsScore.toFixed(1);
+
+      // Update the daily score display
+      document.getElementById('dailyScore').textContent = `Total Daily Score: ${dailyScore.toFixed(1)}`;
+    }
+
+    function resetChecklist() {
+      document.querySelectorAll('.pass, .fail, .reverted').forEach(checkbox => checkbox.checked = false);
+      document.querySelectorAll('.score').forEach(score => score.textContent = '0');
+      dailyScore = 0;
+      taskScores = {};
+      document.getElementById('dailyScore').textContent = 'Total Daily Score: 0';
+    }
+  </script>
+</body>
+</html>
