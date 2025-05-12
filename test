@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Functioning Score & Self-Care Tracker</title>
+    <style>
+        body { font-family: sans-serif; line-height: 1.6; margin: 20px; }
+        h1, h2 { color: navy; }
+        h2 { margin-top: 30px; }
+        .scoring { margin-bottom: 15px; }
+        .penalty { color: red; font-weight: bold; }
+        .bonus { color: green; font-weight: bold; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f0f0f0; }
+    </style>
+</head>
+<body>
+
+    <h1>Functioning Score & Self-Care Tracker</h1>
+
+    <h2>DAILY SCORING RULES:</h2>
+    <div class="scoring">
+        <ul>
+            <li>✅ <strong>YES</strong>: Task was completed and maintained as expected = <span class="bonus">+1 point</span></li>
+            <li>❌ <strong>NO</strong>: Task was not completed or not adequately done = <span class="penalty">-2 points</span></li>
+            <li>🔁 <strong>REVERTED</strong>: Task was done but then undone by the end of the day = <span class="penalty">-1 point</span></li>
+            <li>✅ <strong>Engaged in a meaningful conversation</strong> (Daily Extra): YES = <span class="bonus">+1 point</span>, NO = 0 points</li>
+        </ul>
+    </div>
+
+    <h2>PENALTIES (Subtracted from Daily Score):</h2>
+    <div class="scoring">
+        <ul>
+            <li>2+ days without laundry = <span class="penalty">-3 points</span></li>
+            <li>No clean cutlery left = <span class="penalty">-5 points</span></li>
+            <li>No clean towels available = <span class="penalty">-5 points</span></li>
+            <li>Family complaint about mess = <span class="penalty">-2 points</span> per complaint</li>
+            <li>Unplanned daytime napping = <span class="penalty">-1 point</span></li>
+            <li>Skipped appointment = <span class="penalty">-3 points</span></li>
+            <li>Avoided TAFE/responsibilities = <span class="penalty">-2 points</span> daily (escalates weekly)</li>
+            <li>3+ days without Extras done = <span class="penalty">-1 point</span> (weekly)</li>
+            <li>Dinner mess left overnight = <span class="penalty">-2 points</span></li>
+            <li>2+ days without showering self = <span class="penalty">-3 points</span></li>
+            <li>Forgot meds 2+ days = <span class="penalty">-3 points</span></li>
+            <li>Didn’t eat properly 2+ days = <span class="penalty">-3 points</span></li>
+        </ul>
+    </div>
+
+    <h2>ROLLING 7-DAY SCORE & SELF-CARE BONUS:</h2>
+    <div class="scoring">
+        <p>The 7-day score provides an overview of your functioning and self-care efforts over the past week.</p>
+        <ul>
+            <li><strong>Sum of Daily Scores:</strong> This is the total of your daily scores from the last 7 days.</li>
+            <li><strong>Self-Care Bonus:</strong> You get <span class="bonus">+1 point</span> for each self-care activity you engaged in during the last 7 days:
+                <ul>
+                    <li>Got hair done</li>
+                    <li>10 mins to self</li>
+                    <li>Coloured in</li>
+                    <li>Made music</li>
+                    <li>Completed assessments</li>
+                    <li>Other self-care activities you note</li>
+                </ul>
+            </li>
+            <li><strong>Consistency Bonus:</strong> If your daily total score was positive for 5 or more days in the last 7 days, add an extra <span class="bonus">+2 points</span>.</li>
+            <li><strong>TOTAL 7-DAY SCORE:</strong> This is the sum of your daily scores plus your self-care bonus points and the consistency bonus (if applicable).</li>
+        </ul>
+    </div>
+
+    <h2>WHAT THE SCORES MEAN (General Guidelines):</h2>
+    <div>
+        <h3>Daily Score:</h3>
+        <ul>
+            <li><strong>Positive Score:</strong> More tasks completed and maintained than not done (includes +1 for meaningful conversation if applicable).</li>
+            <li><strong>Around Zero:</strong> Balance between completed and uncompleted tasks.</li>
+            <li><strong>Negative Score:</strong> More tasks not completed or undone, indicating potential difficulties.</li>
+            <li><strong>Significantly Negative Score:</strong> May be a "Red Flag" indicating a need for support.</li>
+        </ul>
+        <h3>7-Day Score:</h3>
+        <ul>
+            <li><strong>Higher Positive Score:</strong> Generally good level of functioning and self-care over the week, with consistent positive days.</li>
+            <li><strong>Score Around Zero:</strong> Mixed week.</li>
+            <li><strong>Negative Score:</strong> More challenging week.</li>
+            <li><strong>Track Trends:</strong> Look at the pattern of your 7-day scores over time.</li>
+        </ul>
+    </div>
+
+</body>
+</html>
